@@ -14,8 +14,34 @@ export const useArticle = () => {
     }
   };
 
+  const subscribeToArticles = async () => {
+    supabase
+      .channel('article-realtime')
+      .on(
+        'postgres_changes',
+        { schema: 'public', table: 'article', event: '*' },
+        (payload: any) => {
+          console.log(payload);
+        }
+      )
+      .subscribe();
+  };
+
+  const subscribeArticle = supabase
+    .channel('article-realtime')
+    .on(
+      'postgres_changes',
+      { schema: 'public', table: 'article', event: '*' },
+      (payload: any) => {
+        console.log(payload);
+      }
+    )
+    .subscribe();
+
   return {
     article,
     getArticle,
+    subscribeToArticles,
+    subscribeArticle,
   };
 };

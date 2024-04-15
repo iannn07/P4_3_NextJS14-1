@@ -1,10 +1,15 @@
 'use client';
 
 import { useArticle } from '@/hooks/useArticle';
+import { supabase } from '@/lib/supabase';
 import { useEffect } from 'react';
 
 const Article = () => {
-  const { article, getArticle } = useArticle();
+  const { article, getArticle, subscribeArticle } = useArticle();
+
+  const unsubscribeFromArticle = () => {
+    supabase.removeChannel(subscribeArticle);
+  };
 
   useEffect(() => {
     getArticle();
@@ -18,6 +23,13 @@ const Article = () => {
           <li key={index}>{item.title}</li>
         ))}
       </ul>
+      <button
+        onClick={unsubscribeFromArticle}
+        type='button'
+        className='text-white p-2 rounded mt-5 w-full bg-blue-500 hover:bg-blue-600'
+      >
+        Unsubscribe
+      </button>
     </div>
   );
 };
