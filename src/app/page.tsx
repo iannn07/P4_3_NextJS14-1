@@ -20,6 +20,9 @@ export default function Home() {
           <Link href='/auth-server'>Auth Server</Link>
         </li>
         <li>Test</li>
+        <li>
+          <Link href={'/auth/logout'}>Log Out</Link>
+        </li>
       </ul>
     </>
   );

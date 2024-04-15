@@ -9,11 +9,14 @@ export async function middleware(req: NextRequest) {
   // setTimeout(async () => {
   const {
     data: { session },
+    error,
   } = await supabase.auth.getSession();
   // session = currentSession;
   // }, 3600000);
 
+  console.log('MIDDLEWARE');
   console.log(session);
+  console.log(error);
 
   if (!session) {
     return NextResponse.redirect(new URL('/login', req.url));

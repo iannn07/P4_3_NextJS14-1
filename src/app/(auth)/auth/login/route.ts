@@ -20,6 +20,7 @@ export const POST = async (req: NextRequest) => {
     password,
   });
 
+  console.log('AUTH/LOGIN')
   if (data) {
     console.log(data);
   }
