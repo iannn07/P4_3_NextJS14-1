@@ -33,7 +33,9 @@ export default function Home() {
         <li>
           <Link href='/auth-server'>Auth Server</Link>
         </li>
-        <li>Test</li>
+        <li>
+          <Link href='/session'>Session</Link>
+        </li>
         <li>
           <button
             onClick={logout}
