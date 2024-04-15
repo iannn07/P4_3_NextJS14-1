@@ -15,26 +15,37 @@ const LoginPage = () => {
     email: '',
     password: '',
   });
-
+  const [resetPassword, setResetPassword] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
 
   const login = async () => {
     try {
-      let { data: dataUser, error } = await supabase.auth.signInWithOtp({
+      let { data, error } = await supabase.auth.signInWithPassword({
         email: supaData.email,
-        options: {
-          shouldCreateUser: true,
-        },
+        password: supaData.password,
       });
 
-      if (dataUser) {
-        console.log(dataUser);
-        setSuccess(true);
-        // router.push('/auth-client');
+      if (data) {
+        console.log(data);
+        router.push('/auth-client');
       }
       if (error) {
         console.log(error);
       }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const sendResetPassword = async () => {
+    console.log('Triggered!')
+    try {
+      const { data: resetData, error } =
+        await supabase.auth.resetPasswordForEmail(supaData.email, {
+          redirectTo: `/reset`,
+        });
+
+      setSuccess(true);
     } catch (error) {
       console.log(error);
     }
@@ -51,44 +62,76 @@ const LoginPage = () => {
 
   return (
     <div className='container mx-auto w-[400px]'>
-      <h1 className='text-3xl font-bold mb-5'>
-        Login to Access auth-client page
-      </h1>
-      <div className='grid'>
-        <h3 className='text-lg mb-1'>Email</h3>
-        <input
-          className='text-black'
-          placeholder='Email'
-          type='email'
-          name='email'
-          value={supaData?.email}
-          onChange={handleChange}
-        />
-      </div>
-      {/* <div className='grid mt-5'>
-        <h3 className='text-lg mb-1'>Password</h3>
-        <input
-          className='text-black'
-          placeholder='Password'
-          type='password'
-          name='password'
-          value={supaData?.password}
-          onChange={handleChange}
-        />
-      </div> */}
-      {success && (
-        <div className='my-4 bg-green-100 px-2 text-green-600'>
-          An email has been sent to {supaData?.email} to login to your account
-        </div>
+      {!resetPassword ? (
+        <>
+          <h1 className='text-3xl font-bold mb-5'>Login with Reset Password</h1>
+          <div className='grid'>
+            <h3 className='text-lg mb-1'>Email</h3>
+            <input
+              className='text-black'
+              placeholder='Email'
+              type='email'
+              name='email'
+              value={supaData?.email}
+              onChange={handleChange}
+            />
+          </div>
+          <div className='grid mt-5'>
+            <h3 className='text-lg mb-1'>Password</h3>
+            <input
+              className='text-black'
+              placeholder='Password'
+              type='password'
+              name='password'
+              value={supaData?.password}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <button
+              onClick={login}
+              type='button'
+              className='text-white p-2 rounded mt-5 w-full bg-blue-500 hover:bg-blue-600'
+            >
+              Log In
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className='grid mb-5'>
+            <h3 className='text-lg mb-1'>Email</h3>
+            <input
+              className='text-black'
+              placeholder='Email'
+              type='email'
+              name='email'
+              value={supaData?.email}
+              onChange={handleChange}
+            />
+          </div>
+          {success && (
+            <div className='my-4 bg-green-100 px-2 text-green-600'>
+              An email has been sent to {supaData?.email} to login to your
+              account
+            </div>
+          )}
+          <button
+            onClick={sendResetPassword}
+            type='button'
+            className='text-white p-2 rounded mt-5 w-full bg-blue-500 hover:bg-blue-600'
+          >
+            Send Reset Password
+          </button>
+        </>
       )}
-      <div>
-        <button
-          onClick={login}
-          type='button'
-          className='text-white p-2 rounded mt-5 w-full bg-blue-500 hover:bg-blue-600'
+      <div className='mt-5'>
+        <p
+          className='cursor-pointer hover:underline'
+          onClick={() => setResetPassword(!resetPassword)}
         >
-          Log In
-        </button>
+          {resetPassword ? 'Login' : 'Reset my password'}
+        </p>
       </div>
     </div>
   );
