@@ -1,8 +1,22 @@
+'use client';
+
 import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+  const logout = async () => {
+    console.log('Triggered!');
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.log(error);
+    } else {
+      router.push('/login');
+    }
+  };
+
   return (
     <>
       <h1 className='text-3xl font-bold'>Hi Supabase!</h1>
@@ -21,7 +35,13 @@ export default function Home() {
         </li>
         <li>Test</li>
         <li>
-          <Link href={'/auth/logout'}>Log Out</Link>
+          <button
+            onClick={logout}
+            className='px-2 py-1 bg-blue-500 text-white cursor-pointer'
+            type='button'
+          >
+            Log Out
+          </button>
         </li>
       </ul>
     </>
