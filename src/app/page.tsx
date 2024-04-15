@@ -25,13 +25,16 @@ export default function Home() {
       </h2>
       <ul className='flex flex-col gap-5' id='nav'>
         <li>
-          <Link href='/new-view'>New View</Link>
+          <Link href='/article'>Article</Link>
         </li>
         <li>
           <Link href='/auth-client'>Auth Client</Link>
         </li>
         <li>
           <Link href='/auth-server'>Auth Server</Link>
+        </li>
+        <li>
+          <Link href='/new-view'>New View</Link>
         </li>
         <li>
           <Link href='/session'>Session</Link>
