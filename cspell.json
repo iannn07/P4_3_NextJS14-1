@@ -7,7 +7,8 @@
         "nextjs",
         "rootsupabase",
         "Supa",
-        "SUPABASE"
+        "SUPABASE",
+        "Upvote"
     ],
     "ignoreWords": [],
     "import": []

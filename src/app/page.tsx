@@ -40,6 +40,9 @@ export default function Home() {
           <Link href='/session'>Session</Link>
         </li>
         <li>
+          <Link href='/upvote'>Upvote</Link>
+        </li>
+        <li>
           <button
             onClick={logout}
             className='px-2 py-1 bg-blue-500 text-white cursor-pointer'
