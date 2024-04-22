@@ -11,6 +11,17 @@ const Article = () => {
     supabase.removeChannel(subscribeArticle);
   };
 
+  supabase
+  .channel('article-realtime')
+  .on(
+    'postgres_changes',
+    { schema: 'public', table: 'articles', event: '*' },
+    (payload: any) => {
+      console.log(payload);
+    }
+  )
+  .subscribe();
+
   useEffect(() => {
     getArticle();
   }, [getArticle]);

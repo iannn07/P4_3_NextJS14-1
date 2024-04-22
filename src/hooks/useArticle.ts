@@ -8,7 +8,7 @@ export const useArticle = () => {
 
   const getArticle = async () => {
     const { data, error } = await supabase
-      .from('article')
+      .from('articles')
       .select('*, votes(*)');
     if (data) {
       setArticle(data);
@@ -22,7 +22,7 @@ export const useArticle = () => {
     .channel('article-realtime')
     .on(
       'postgres_changes',
-      { schema: 'public', table: 'article', event: '*' },
+      { schema: 'public', table: 'articles', event: '*' },
       (payload: any) => {
         console.log(payload);
       }
